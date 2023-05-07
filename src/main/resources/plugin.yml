@@ -1,0 +1,67 @@
+name: Core
+version: '${project.version}'
+main: com.zip.core.Core
+api-version: 1.19
+
+commands:
+  gmc:
+    description: gamemode creative
+    usage: /<command> [user]
+    permission: com.zip.gamemode.gmc
+  gms:
+    description: gamemode survival
+    usage: /<command> [user]
+    permission: com.zip.gamemode.gms
+  gma:
+    description: gamemode adventure
+    usage: /<command> [user]
+    permission: com.zip.gamemode.gms
+  gmsp:
+    description: gamemode spectator
+    usage: /<command> [user]
+    permission: com.zip.gamemode.gmsp
+  heal:
+    description: heal player
+    usage: /<command> [user]
+    permission: com.zip.heal
+  feed:
+    description: feed player
+    usage: /<command> [user]
+    permission: com.zip.feed
+  fly:
+    description: toggle player fly ability
+    usage: /<command> [user]
+    permission: com.zip.fly
+  openinv:
+    description: open player inventory
+    usage: /<command> [user]
+    permission: com.zip.openinv
+  openender:
+    description: open player enderchest
+    usage: /<command> [user]
+    permission: com.zip.openender
+  rtp:
+    description: random teleport
+    usage: /<command>
+  spawn:
+    description: teleport to spawn
+    usage: /<command>
+  msg:
+    description: message a player
+    usage: /<command> [player]
+  repair:
+    description: repairs items
+    usage: /<command> [player]
+    permission: com.zip.repair
+  sudo:
+    description: run command as another user
+    usage: /<command> [player]
+    permission: com.zip.sudo
+  settag:
+    description: sets a players tag
+    usage: /<command> [player]
+    permission: com.zip.tag
+  deltag:
+    description: deletes a players tag
+    usage: /<command> [player]
+    permission: com.zip.tag
