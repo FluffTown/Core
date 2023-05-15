@@ -1,5 +1,6 @@
 package com.zip.core.commands;
 
+import com.zip.core.utility.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -16,7 +17,7 @@ public class sudo implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         if (args.length == 0) {
-            player.sendMessage(color("&8[&c!&8]&7 Please specify a player"));
+            MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "Please specify a player");
         } else {
             //player argument
             Player target = Bukkit.getPlayer(args[0]);
@@ -26,10 +27,9 @@ public class sudo implements CommandExecutor {
             }
             String message = sb.toString();
             if (target != null) {
-                //&8[&2M&8]&7 &7[&rPlayer &7-> &rTarget&7] &7»&r Hello World
                 target.performCommand(message);
             } else {
-                player.sendMessage(color("&8[&c!&8]&7 Player not found"));
+                MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "Player not found");
             }
         }
         return true;

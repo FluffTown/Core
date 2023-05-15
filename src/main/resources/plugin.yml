@@ -65,3 +65,31 @@ commands:
     description: deletes a players tag
     usage: /<command> [player]
     permission: com.zip.tag
+  warp:
+    description: warp
+    usage: /<command>
+  sethome:
+    description: sets a home
+    usage: /<command>
+  delhome:
+    description: deletes a home
+    usage: /<command>
+  home:
+    description: tp to a home
+    usage: /<command>
+  homeas:
+    description: home aliasing
+    usage: /<command>
+    permission: com.zip.home.admin
+  boop:
+    description: boop
+    usage: /<command>
+  sniff:
+    description: sniff
+    usage: /<command>
+  beep:
+    description: beep
+    usage: /<command>
+  awoo:
+    description: awoo
+    usage: /<command>

@@ -1,6 +1,7 @@
 package com.zip.core.commands;
 
 import com.zip.core.utility.DBControl;
+import com.zip.core.utility.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class deltag implements CommandExecutor {
         Player player = (Player) sender;
         control.reconnectDB();
         control.delete("Tags", "uuid", "\"" + player.getUniqueId() + "\"");
-        player.sendMessage("[i] tag removed");
+        MessageUtils.sendMessage(sender, MessageUtils.Type.INFO, "tag removed");
         return true;
     }
 }

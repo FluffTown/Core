@@ -1,13 +1,12 @@
 package com.zip.core.commands;
 
+import com.zip.core.utility.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static com.zip.core.utility.text.color;
 
 public class gmsp implements CommandExecutor {
     @Override
@@ -22,7 +21,7 @@ public class gmsp implements CommandExecutor {
             if (target != null) {
                 target.setGameMode(GameMode.SPECTATOR);
             } else {
-                player.sendMessage(color("&8[&c!&8]&7 Player not found"));
+                MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "player not found");
             }
         }
         return true;

@@ -9,7 +9,7 @@ public class DBControl {
     public void reconnectDB() {
         try {
             if (connection.isClosed()) {
-                connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/Server","root","password");
+                connection = DriverManager.getConnection("jdbc:sqlite:./Server.db");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -28,11 +28,14 @@ public class DBControl {
     }
     public DBControl() {
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1/Server","root","password");
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:./Server.db");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void disconnect() throws SQLException {
+        connection.close();
     }
     public void insert(String TABLE, String[] args) {
         try {
@@ -106,6 +109,17 @@ public class DBControl {
             Statement stmt = connection.createStatement();
             String sql = "SELECT * FROM "+TABLE+" WHERE "+label+"="+key;
 
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ResultSet selectRaw(String TABLE) {
+        try {
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT * FROM "+TABLE;
             ResultSet rs = stmt.executeQuery(sql);
             return rs;
         } catch (Exception e) {

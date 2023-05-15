@@ -19,8 +19,10 @@ import java.sql.SQLException;
 
 public class Events implements Listener {
     DBControl control;
-    public Events(DBControl con) {
-        control = con;
+    Core core;
+    public Events(Core core) {
+        control = core.control;
+        this.core = core;
     }
 
     @EventHandler
