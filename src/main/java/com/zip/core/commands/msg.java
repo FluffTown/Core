@@ -1,5 +1,6 @@
 package com.zip.core.commands;
 
+import com.zip.core.utility.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -27,7 +28,7 @@ public class msg implements CommandExecutor {
                 player.sendMessage(color("&8[&2M&8]&7 &7[&rYou &7→&7 &r" + target.getName() + "&7] &7»&r " + message));
                 target.sendMessage(color("&8[&2M&8]&7 &7[&r" + player.getName() + " &7→ &rYou&7] &7»&r " + message));
             } else {
-                player.sendMessage(color("&8[&c!&8]&7 Player not found"));
+                MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "player not found");
             }
         }
         return true;

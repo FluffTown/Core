@@ -1,5 +1,6 @@
 package com.zip.core.commands;
 
+import com.zip.core.utility.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import static com.zip.core.utility.text.color;
 
 public class repair implements CommandExecutor {
     @Override
@@ -39,7 +38,7 @@ public class repair implements CommandExecutor {
                     }
                 }
             } else {
-                player.sendMessage("[i] player not found");
+                MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "player not found");
             }
         }
         return true;

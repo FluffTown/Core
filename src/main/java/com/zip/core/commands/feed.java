@@ -15,11 +15,13 @@ public class feed implements CommandExecutor {
         if (args.length == 0) {
             //no args
             player.setFoodLevel(20);
+            player.setSaturation(20);
         } else {
             //player argument
             Player target = Bukkit.getPlayer(args[0]);
             if (target != null) {
                 target.setFoodLevel(20);
+                player.setSaturation(20);
             } else {
                 player.sendMessage(color("&8[&c!&8]&7 Player not found"));
             }
