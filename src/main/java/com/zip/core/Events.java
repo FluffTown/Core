@@ -1,6 +1,7 @@
 package com.zip.core;
 
 import com.zip.core.utility.DBControl;
+import com.zip.core.utility.text;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
@@ -17,13 +18,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.zip.core.utility.text.color;
+//EVENT HANDLER
 public class Events implements Listener {
-    DBControl control;
-    Core core;
-    public Events(Core core) {
-        control = core.control;
-        this.core = core;
-    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -34,11 +31,15 @@ public class Events implements Listener {
         }
         CachedMetaData metaData = LuckPermsProvider.get().getPlayerAdapter(Player.class).getMetaData(event.getPlayer());
         event.getPlayer().setPlayerListName(ChatColor.translateAlternateColorCodes('&', "&7[&f" + metaData.getPrefix() + "&f&7] &f" + event.getPlayer().getDisplayName()));
-        event.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&8[&a+&8] &a" + event.getPlayer().getName()));
+        String out = ChatColor.translateAlternateColorCodes('&', "&8[&a+&8] &a" + event.getPlayer().getName());
+        event.setJoinMessage(out);
+        Core.plugin.jda.getTextChannelById(Core.plugin.chatChannel).sendMessage(ChatColor.stripColor(out)).queue(); //*Blep*
     }
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&8[&c-&8] &c" + event.getPlayer().getName()));
+        String out = ChatColor.translateAlternateColorCodes('&', "&8[&c-&8] &c" + event.getPlayer().getName());
+        event.setQuitMessage(out);
+        Core.plugin.jda.getTextChannelById(Core.plugin.chatChannel).sendMessage(ChatColor.stripColor(out)).queue();
     }
 
     @EventHandler
@@ -46,8 +47,8 @@ public class Events implements Listener {
         LuckPerms api = LuckPermsProvider.get();
         CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(event.getPlayer());
         String prefix = metaData.getPrefix();
-        control.reconnectDB();
-        ResultSet rs = control.selectRaw("Tags", "uuid", "\""+event.getPlayer().getUniqueId().toString()+"\"");
+        Core.plugin.control.reconnectDB();
+        ResultSet rs = Core.plugin.control.selectRaw("Tags", "uuid", "\""+event.getPlayer().getUniqueId().toString()+"\"");
         if (prefix != null) {
             prefix = prefix.substring(0,2) + ChatColor.stripColor(prefix).charAt(2);
         }
@@ -60,7 +61,17 @@ public class Events implements Listener {
             e.printStackTrace();
         }
         event.setFormat("%2$s");
-        event.setMessage(ChatColor.translateAlternateColorCodes('&',message));
+        String out = message; //ChatColor.translateAlternateColorCodes('&',message);
+        event.setMessage(color(message));
+
+
+        out = out.replaceAll("@","@ ");
+
+
+        //out = out.replaceAll("&3", "\033[0;36m");
+        out = "```ansi\n" + out +"\n```";
+
+        Core.plugin.jda.getTextChannelById(Core.plugin.chatChannel).sendMessage(ChatColor.stripColor(color(message))).queue();
     }
     @EventHandler
     public void onPlayerPortal(PlayerPortalEvent e) {

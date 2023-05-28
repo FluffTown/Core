@@ -6,3 +6,4 @@ warps:
     world: "world"
 options:
   rtp_range: 10000
+token: "my ass"

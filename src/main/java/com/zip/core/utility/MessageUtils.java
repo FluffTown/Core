@@ -2,7 +2,7 @@ package com.zip.core.utility;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
-
+//Good shit
 public class MessageUtils {
     public enum Type {
         ERROR("&8[&c!&8] &7"),

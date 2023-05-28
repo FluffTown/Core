@@ -19,17 +19,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
+//HOME!!!!
 public class HomeCommands implements CommandExecutor, TabCompleter {
 
-    private final FileConfiguration config;
-    Core core;
-    DBControl control;
-    public HomeCommands(Core core) {
-        this.core = core;
-        this.config = core.getConfig();
-        this.control = core.control;
-    }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
@@ -37,11 +29,11 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         //reconnect to the database to avoid errors
-        control.reconnectDB();
+        Core.plugin.control.reconnectDB();
 
         //get home information
         final Player player = (Player) sender;
-        String alias = config.getString(player.getUniqueId().toString(), "");
+        String alias = Core.plugin.getConfig().getString(player.getUniqueId().toString(), "");
         String uuid_prefix = (alias.isEmpty() ? player.getUniqueId().toString() : alias);
         String home_name = args.length == 0 ? "home" : args[0];
         String sanitized = home_name.replaceAll("[^A-Za-z0-9_-]", "");
@@ -56,7 +48,7 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
         }
 
         //get homelist from database
-        ResultSet rs = control.selectRaw("Homes", "uuid", "\""+uuid_prefix+"\"", "label", "\""+home_name+"\"");
+        ResultSet rs = Core.plugin.control.selectRaw("Homes", "uuid", "\""+uuid_prefix+"\"", "label", "\""+home_name+"\"");
         Location destination = null;
         try {
             //get x, y, and z coordinates to put into a Location object
@@ -79,8 +71,8 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
             MessageUtils.sendMessage(player, MessageUtils.Type.INFO, "Home \"" + home_name + "\" set to your position.");
 
             //set the home in the database
-            control.delete("Homes", "label","\""+home_name+"\"","uuid","\""+uuid_prefix+"\"");
-            control.insert("Homes",new String[] {
+            Core.plugin.control.delete("Homes", "label","\""+home_name+"\"","uuid","\""+uuid_prefix+"\"");
+            Core.plugin.control.insert("Homes",new String[] {
                     uuid_prefix,
                     player.getName(),
                     home_name,
@@ -93,7 +85,7 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
             if(destination == null) MessageUtils.sendMessage(player, MessageUtils.Type.ERROR, "Name given is not associated with a home.");
             else {
                 MessageUtils.sendMessage(player, MessageUtils.Type.INFO, "Home named \"" + home_name + "\" has been deleted.");
-                control.delete("Homes", "label","\""+home_name+"\"","uuid","\""+uuid_prefix+"\"");
+                Core.plugin.control.delete("Homes", "label","\""+home_name+"\"","uuid","\""+uuid_prefix+"\"");
             }
         } else return false;
         return true;
@@ -105,15 +97,15 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
         if (label.equalsIgnoreCase("home") || label.equalsIgnoreCase("delhome")) {
             if (args.length == 1) {
                 //reconnect to the database to avoid errors
-                control.reconnectDB();
+                Core.plugin.control.reconnectDB();
 
                 //get strings
-                String alias = config.getString(player.getUniqueId().toString(), "");
+                String alias = Core.plugin.getConfig().getString(player.getUniqueId().toString(), "");
                 String uuid_prefix = (alias.isEmpty() ? player.getUniqueId().toString() : alias);
 
                 //store home results in a List
                 List<String> options = new LinkedList<>();
-                control.select("Homes", "uuid", "\""+uuid_prefix+"\"", "label").forEach((String s) -> {
+                Core.plugin.control.select("Homes", "uuid", "\""+uuid_prefix+"\"", "label").forEach((String s) -> {
                     if(!s.toLowerCase().contains(args[0].toLowerCase())) return;
                     options.add(s);
                 });

@@ -3,7 +3,7 @@ package com.zip.core.utility;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+//Data Base Control
 public class DBControl {
     public Connection connection;
     public void reconnectDB() {

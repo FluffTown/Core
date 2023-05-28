@@ -13,18 +13,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.util.*;
-
+//Home? MY HOME!!!
 public class HomeAsCommand implements CommandExecutor, TabCompleter {
-
-    private final FileConfiguration config;
-    Core core;
-    DBControl control;
-
-    public HomeAsCommand(Core core) {
-        this.core = core;
-        this.config = core.getConfig();
-        this.control = core.control;
-    }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -34,7 +24,7 @@ public class HomeAsCommand implements CommandExecutor, TabCompleter {
         Player player = (Player) sender;
         if (args.length == 0 || args[0].equalsIgnoreCase(player.getName())) {
             MessageUtils.sendMessage(player, MessageUtils.Type.INFO, "Home aliasing removed.");
-            config.set(player.getUniqueId().toString(), null);
+            Core.plugin.getConfig().set(player.getUniqueId().toString(), null);
         } else {
             OfflinePlayer[] seen_players = Bukkit.getOfflinePlayers();
             String alias_uuid = null;
@@ -46,7 +36,7 @@ public class HomeAsCommand implements CommandExecutor, TabCompleter {
                 MessageUtils.sendMessage(player, MessageUtils.Type.ERROR, "Player " + args[0] + " has never joined the server.");
             else {
                 MessageUtils.sendMessage(player, MessageUtils.Type.INFO, "Home aliasing set to player " + args[0] + ".");
-                config.set(player.getUniqueId().toString(), alias_uuid);
+                Core.plugin.getConfig().set(player.getUniqueId().toString(), alias_uuid);
             }
         }
         return true;
@@ -55,7 +45,7 @@ public class HomeAsCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) return null;
         if (args.length == 1) {
-            ResultSet set = control.selectRaw("Homes");
+            ResultSet set = Core.plugin.control.selectRaw("Homes");
             List<String> options = new ArrayList<>();
             try {
                 while (set.next()) {

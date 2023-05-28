@@ -11,16 +11,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
-
+//warps!!!
 public class warp implements CommandExecutor, TabCompleter {
-    Core core;
-    public warp(Core c) {
-        this.core = c;
-    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         try {
-            ConfigurationSection warp = core.getConfig().getConfigurationSection("warps").getConfigurationSection(args[0]);
+            ConfigurationSection warp = Core.plugin.getConfig().getConfigurationSection("warps").getConfigurationSection(args[0]);
             Location loc = new Location(
                     Bukkit.getWorld(warp.getString("world")),
                     warp.getDouble("x"),
@@ -36,7 +32,7 @@ public class warp implements CommandExecutor, TabCompleter {
     }
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        ConfigurationSection warps = core.getConfig().getConfigurationSection("warps");
+        ConfigurationSection warps = Core.plugin.getConfig().getConfigurationSection("warps");
         List<String> out = new ArrayList<>();
         out.addAll(warps.getKeys(false));
         return out;

@@ -12,23 +12,28 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Random;
+//RANDOM TP! *Blep*
 public class rtp implements CommandExecutor {
-    Core core;
-    FileConfiguration config;
-    public rtp(Core core) {
-        this.core = core;
-        this.config = core.getConfig();
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         int tries = 0;
-        int range = config.getConfigurationSection("options").getInt("rtp_range");
+        int range = Core.plugin.getConfig().getConfigurationSection("options").getInt("rtp_range");
         Location loc;
         Player player = (Player) sender;
         Random random = new Random();
+        if (Core.plugin.rtpCooldown.containsKey(player.getUniqueId().toString())) {
+            if (!(Timestamp.from(Instant.now()).getTime() > Core.plugin.rtpCooldown.get(player.getUniqueId().toString())+10000)) {
+                long timeRemaining = Core.plugin.rtpCooldown.get(player.getUniqueId().toString())+10000 - Timestamp.from(Instant.now()).getTime();
+                MessageUtils.sendMessage(sender, MessageUtils.Type.WARN,"Please try again in: "+timeRemaining/1000+"s");
+                return true;
+            }
+        }
+        Core.plugin.rtpCooldown.put(player.getUniqueId().toString(),Timestamp.from(Instant.now()).getTime());
         try {
             Block block = Objects.requireNonNull(Bukkit.getWorld("Survival")).getHighestBlockAt(
                     random.nextInt(-range, range),
@@ -47,6 +52,7 @@ public class rtp implements CommandExecutor {
                 MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "Sorry, but I can't find a safe place. Please try again!");
                 return true;
             }
+            MessageUtils.sendMessage(sender, MessageUtils.Type.INFO,"you've been rtp'd in: "+(tries+1) + (((tries+1) == 1)?" attempt":" attempts"));
             player.teleport(loc.add(0,1,0));
         } catch (Exception e) {
             MessageUtils.sendMessage(sender, MessageUtils.Type.ERROR, "World Does Not Exist");

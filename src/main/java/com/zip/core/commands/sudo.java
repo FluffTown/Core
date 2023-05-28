@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 
 import static com.zip.core.utility.text.color;
-
+//Super user do?
 public class sudo implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

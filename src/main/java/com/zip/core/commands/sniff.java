@@ -8,12 +8,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static com.zip.core.utility.rpUtil.cooldown;
 import static com.zip.core.utility.text.color;
-
+//yuck.
 public class sniff implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        if (cooldown(player)) {
+            return true;
+        }
         if (args.length == 0) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 MessageUtils.sendMessage(p, MessageUtils.Type.INFO, player.getDisplayName() + " sniffed!");

@@ -90,6 +90,9 @@ commands:
   beep:
     description: beep
     usage: /<command>
+  scream:
+    description: scream
+    usage: /<command>
   awoo:
     description: awoo
     usage: /<command>
