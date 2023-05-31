@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-//01010100101010110011001001101010 random 0s and 1s
 public class botShit extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

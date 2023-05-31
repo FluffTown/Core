@@ -89,8 +89,10 @@ public class Events implements Listener {
         Player player = event.getPlayer();
         if (player.isGliding()) {
             if (player.getWorld().getName().equals("world")) {
-                player.setGliding(false);
-                event.setCancelled(true);
+                if (!player.hasPermission("com.zip.fly")) {
+                    player.setGliding(false);
+                    event.setCancelled(true);
+                }
             }
         }
     }
